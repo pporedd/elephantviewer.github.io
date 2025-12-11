@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elephant Cam Time</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 { color: #333; }
+        label { display: block; margin: 1rem 0 0.5rem; color: #555; }
+        input[type="time"] {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .checkbox-group {
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkbox-group input { margin-right: 0.5rem; }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Elephant Time</h1>
+    <p>Please enter your current time (Pacific Time).</p>
+
+    <label for="timeInput">Time (PST/PDT):</label>
+    <input type="time" id="timeInput" required>
+
+    <div class="checkbox-group">
+        <input type="checkbox" id="showElephants">
+        <label for="showElephants">Do you want to see elephants?</label>
+    </div>
+
+    <button onclick="findElephants()">Go</button>
+</div>
+
+<script>
+    function findElephants() {
+        const timeInput = document.getElementById('timeInput').value;
+        const wantsElephants = document.getElementById('showElephants').checked;
+
+        if (!wantsElephants) {
+            alert("Maybe next time!");
+            return;
+        }
+
+        if (!timeInput) {
+            alert("Please enter a time.");
+            return;
+        }
+
+        // Parse input time (HH:MM)
+        const [hours, minutes] = timeInput.split(':').map(Number);
+
+        // Convert Pacific Time (approx UTC-8) to UTC
+        let utcHours = (hours + 8) % 24;
+
+        // Schedule Logic (UTC)
+        // 01:00 - 05:00 UTC: Australia (11am - 3pm AEDT)
+        // 05:00 - 15:00 UTC: Africa (7am - 5pm SAST)
+        // 15:00 - 01:00 UTC: America (7am - 5pm PST)
+
+        // Debugging
+        console.log(`Input: ${hours}:${minutes} PST, UTC: ${utcHours}`);
+
+        let destination = 'america.html'; // Default
+
+        if (utcHours >= 1 && utcHours < 5) {
+            destination = 'australia.html';
+        } else if (utcHours >= 5 && utcHours < 15) {
+            destination = 'africa.html';
+        } else if (utcHours >= 15 && utcHours < 21) {
+             destination = 'america.html';
+        } else {
+             // 21 to 24 OR 0 to 1 -> Australia is better
+             // UTC 21:00 is 1pm in Australia (Daylight).
+             // UTC 21:00 is 1pm PST (America, Daylight).
+             // Wait, earlier logic:
+             // America: 15:00 - 01:00 UTC (Daylight)
+             // Australia: 21:00 - 07:00 UTC (Daylight)
+
+             // Overlap 21:00 - 01:00.
+             // We can split it.
+
+             // Let's stick to the simpler logic I derived:
+             // 01-05: Australia
+             // 05-15: Africa
+             // 15-01: America? No, 15-21 America.
+             // 21-01: Australia covers 21-07. America covers 15-01.
+             // Let's use Australia for late night US time (early morning Australia).
+
+             // Revised Simple Schedule:
+             // 05-15: Africa
+             // 15-21: America
+             // 21-05: Australia
+
+             destination = 'australia.html';
+        }
+
+        window.location.href = destination;
+    }
+</script>
+
+</body>
+</html>
