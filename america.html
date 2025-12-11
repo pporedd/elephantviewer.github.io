@@ -3,24 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>America Time Zone</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; background-color: #e0f7fa; padding: 2rem; }
-        .cam-container { max-width: 800px; margin: 0 auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        .back-btn { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-    </style>
+    <title>America Time Zone - Elephant Cams</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Current Timezone: America (Pacific)</h1>
-    <p>It's daylight in San Diego! Enjoy the elephants.</p>
+    <h1>Enjoy your elephant from America!</h1>
+    <p>It's daylight in the US! (PST/EST)</p>
 
     <div class="cam-container">
-        <!-- San Diego Zoo Safari Park - Channel Live Stream -->
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=UCf_XHKdeDZPOSD7kboo9CJA" allowfullscreen></iframe>
-        <p><small>If the stream is offline, visit <a href="https://zoo.sandiegozoo.org/cams/elephant-cam" target="_blank">San Diego Zoo Website</a>.</small></p>
+        <iframe id="camFrame" src="" allowfullscreen></iframe>
+        <p id="camTitle"></p>
+
+        <button onclick="nextCam()" class="btn switch-btn">No elephants here? Maybe try this instead!</button>
+        <br>
+        <a href="index.html" class="btn back-btn">Back</a>
     </div>
 
-    <a href="index.html" class="back-btn">Back</a>
+    <script>
+        const cams = [
+            {
+                url: "https://www.youtube.com/embed/live_stream?channel=UCf_XHKdeDZPOSD7kboo9CJA", // San Diego Zoo
+                title: "San Diego Zoo Safari Park"
+            },
+            {
+                url: "https://www.youtube.com/embed/TlE73DZ4QME", // Elephant Sanctuary Tennessee
+                title: "The Elephant Sanctuary in Tennessee"
+            },
+            {
+                url: "https://www.youtube.com/embed/2evXIx9X5Eg", // Reid Park Zoo
+                title: "Reid Park Zoo"
+            },
+            {
+                url: "https://www.youtube.com/embed/Zj0g8XYa4Sc", // Houston Zoo
+                title: "Houston Zoo"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function loadCam(index) {
+            const frame = document.getElementById('camFrame');
+            const title = document.getElementById('camTitle');
+
+            frame.src = cams[index].url;
+            title.innerText = cams[index].title;
+        }
+
+        function nextCam() {
+            currentIndex = (currentIndex + 1) % cams.length;
+            loadCam(currentIndex);
+        }
+
+        loadCam(currentIndex);
+    </script>
 </body>
 </html>
