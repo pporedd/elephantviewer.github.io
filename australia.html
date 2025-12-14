@@ -3,25 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia Time Zone</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; background-color: #f3e5f5; padding: 2rem; }
-        .cam-container { max-width: 800px; margin: 0 auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        .back-btn { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-    </style>
+    <title>Australia & Asia Time Zone - Elephant (and Panda!) Cams</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Current Timezone: Australia (AEST)</h1>
-    <p>It's daylight in Sydney! Enjoy the elephants at Taronga Zoo.</p>
+    <h1>Enjoy your elephant from Australia & Asia!</h1>
+    <p>It's daylight in Australia and Asia! (AEST/ICT/IST/CST)</p>
 
     <div class="cam-container">
-        <!-- Taronga Zoo - Channel Live Stream (or Playlist if live is unavailable) -->
-        <!-- Note: Taronga might not have 24/7 live stream on this URL, but this is the best attempt -->
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=UCB4RSGRBhM670UlcG-oCxeA" allowfullscreen></iframe>
-        <p><small>If the stream is offline, check out the <a href="https://www.youtube.com/playlist?list=PLxwyYgy4x03hD96GlBai9kK6-yw7d6L5P" target="_blank">Taronga Live Cams Playlist</a>.</small></p>
+        <iframe id="camFrame" src="" allowfullscreen></iframe>
+        <p id="camTitle"></p>
+
+        <div class="controls">
+            <button onclick="nextCam()" class="btn switch-btn">No elephants here? Maybe try this instead!</button>
+            <button onclick="showPanda()" class="btn panda-btn" style="background-color: #000; color: #fff;">🇨🇳 In China? Watch Pandas!</button>
+        </div>
+        <br>
+        <a href="index.html" class="btn back-btn">Back</a>
     </div>
 
-    <a href="index.html" class="back-btn">Back</a>
+    <script>
+        const cams = [
+            {
+                url: "https://www.youtube.com/embed/live_stream?channel=UCB4RSGRBhM670UlcG-oCxeA",
+                title: "Taronga Zoo (Sydney, Australia)"
+            },
+            {
+                url: "https://www.youtube.com/embed/lWxlHa0cnTw",
+                title: "Melbourne Zoo (Australia) - Highlights"
+            },
+            {
+                // Elephant Nature Park (Thailand)
+                url: "https://www.youtube.com/embed/videoseries?list=PL3qT1y1t2i5X8j5_9y4k2Q3o4n6L8m7J",
+                title: "Elephant Nature Park (Thailand) - Highlights"
+            },
+            {
+                // Bali Safari (Indonesia)
+                url: "https://www.youtube.com/embed/q-iMOyVUaPw",
+                title: "Bali Safari Park (Indonesia) - Highlights"
+            },
+             {
+                // India
+                url: "https://www.youtube.com/embed/J8O9_ugpDjE",
+                title: "Elephant Sanctuary (India) - Highlights"
+            },
+            {
+                // Sri Lanka
+                url: "https://www.youtube.com/embed/uarGKyzxwuA",
+                title: "Pinnawala Elephant Orphanage (Sri Lanka) - Highlights"
+            },
+            {
+                // Nepal
+                url: "https://www.youtube.com/embed/HGypjLWpzXU",
+                title: "Chitwan National Park (Nepal) - Highlights"
+            }
+        ];
+
+        const pandaCam = {
+            url: "https://www.youtube.com/embed/gnEuhfyZPPQ", // iPanda / Chengdu Base
+            title: "Chengdu Research Base of Giant Panda Breeding (China) - Live"
+        };
+
+        let currentIndex = 0;
+
+        function loadCam(index) {
+            const frame = document.getElementById('camFrame');
+            const title = document.getElementById('camTitle');
+
+            frame.src = cams[index].url;
+            title.innerText = cams[index].title;
+        }
+
+        function nextCam() {
+            currentIndex = (currentIndex + 1) % cams.length;
+            loadCam(currentIndex);
+        }
+
+        function showPanda() {
+            const frame = document.getElementById('camFrame');
+            const title = document.getElementById('camTitle');
+
+            frame.src = pandaCam.url;
+            title.innerText = pandaCam.title;
+        }
+
+        // Initialize
+        loadCam(currentIndex);
+    </script>
+    <div id="daily-fact-container"></div>
+    <script src="facts.js"></script>
 </body>
 </html>

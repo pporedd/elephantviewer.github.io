@@ -3,24 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Africa Time Zone</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; background-color: #fff3e0; padding: 2rem; }
-        .cam-container { max-width: 800px; margin: 0 auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        .back-btn { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
-    </style>
+    <title>Africa & Europe Time Zone - Elephant Cams</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Current Timezone: Africa (SAST)</h1>
-    <p>It's daylight in South Africa! Enjoy the elephants at Tembe Elephant Park.</p>
+    <h1>Enjoy your elephant from Africa & Europe!</h1>
+    <p>It's daylight in Africa and Europe! (SAST/CET/GMT)</p>
 
     <div class="cam-container">
-        <!-- Tembe Elephant Park - Channel Live Stream -->
-        <iframe src="https://www.youtube.com/embed/live_stream?channel=UCvZF8N5_WlOpmEOP5ocknrA" allowfullscreen></iframe>
-        <p><small>Powered by Explore.org</small></p>
+        <!-- Iframe will be populated by JS -->
+        <iframe id="camFrame" src="" allowfullscreen></iframe>
+        <p id="camTitle"></p>
+
+        <button onclick="nextCam()" class="btn switch-btn">No elephants here? Maybe try this instead!</button>
+        <br>
+        <a href="index.html" class="btn back-btn">Back</a>
     </div>
 
-    <a href="index.html" class="back-btn">Back</a>
+    <script>
+        const cams = [
+            {
+                url: "https://www.youtube.com/embed/live_stream?channel=UCvZF8N5_WlOpmEOP5ocknrA",
+                title: "Tembe Elephant Park (South Africa) - Africam"
+            },
+            {
+                url: "https://www.youtube.com/embed/QGvjAPzImR8",
+                title: "Naledi Live Cam (South Africa) - Africam"
+            },
+            {
+                url: "https://www.youtube.com/embed/diJuM5pqM0Q",
+                title: "Olifants River (South Africa) - Africam"
+            },
+            {
+                // Dublin Zoo often has live streams or highlights.
+                // Using a recent highlight or channel live if available.
+                // Since 24/7 live for zoos varies, we use a playlist or known video as fallback.
+                url: "https://www.youtube.com/embed/videoseries?list=PL3I-02hVv2wJjP9XyF0JdK7wRj1z8G4F_",
+                title: "Dublin Zoo Elephants (Ireland) - Highlights/Live"
+            },
+            {
+                // Chester Zoo (UK)
+                url: "https://www.youtube.com/embed/videoseries?list=PLJHN7Q7rV8D6gQ5T7yK7W8j9J6l5R4k_",
+                title: "Chester Zoo Elephants (UK) - Highlights/Live"
+            },
+            {
+                // Ouwehands Dierenpark (Netherlands) - Highlights
+                url: "https://www.youtube.com/embed/WOH_HZOiBCk",
+                title: "Ouwehands Dierenpark (Netherlands) - Highlights"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function loadCam(index) {
+            const frame = document.getElementById('camFrame');
+            const title = document.getElementById('camTitle');
+
+            frame.src = cams[index].url;
+            title.innerText = cams[index].title;
+        }
+
+        function nextCam() {
+            currentIndex = (currentIndex + 1) % cams.length;
+            loadCam(currentIndex);
+        }
+
+        // Initialize
+        loadCam(currentIndex);
+    </script>
+    <div id="daily-fact-container"></div>
+    <script src="facts.js"></script>
 </body>
 </html>
